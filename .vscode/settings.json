@@ -1,0 +1,6 @@
+{
+  "files.autoSave": "afterDelay",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
+}

@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BackgroundImage from "../components/BackgroundImage";
 import styled from "styled-components";
 import Header from "../components/Header";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { auth } from "../utils/firebase-config";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,15 +15,24 @@ export default function SignUp() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
-  const handleSignin = async() =>{
-    try{
-      const {email, password} = formValues;
-      await createUserWithEmailAndPassword(auth,email, password);
-    }catch(err){
-      console.log(err)
+  const handleSignin = async () => {
+    try {
+      const { email, password } = formValues;
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        navigate("/");
+      }
+    });
+  }, []);
+
   return (
     <Container showPassowrd={showPassword}>
       <BackgroundImage />
