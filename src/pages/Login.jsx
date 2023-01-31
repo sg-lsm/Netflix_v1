@@ -18,16 +18,14 @@ export default function Login() {
       const { email, password } = formValues;
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
-      console.log(err); 
+      console.log(err);
     }
   };
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        navigate("/");
-      }
-    });
-  }, []);
+
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) navigate("/");
+  });
+
   return (
     <Container>
       <BackgroundImage />
@@ -101,7 +99,6 @@ const Container = styled.div`
             width: 15rem;
           }
           button {
-            
             padding: 0.5rem 1rem;
             background-color: #e50914;
             border: none;

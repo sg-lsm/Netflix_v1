@@ -21,17 +21,19 @@ export default function SignUp() {
     try {
       const { email, password } = formValues;
       await createUserWithEmailAndPassword(auth, email, password);
+      console.log(email)
+
     } catch (err) {
       console.log(err);
     }
   };
-  useEffect(() => {
+  
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         navigate("/");
       }
     });
-  }, []);
+    
 
   return (
     <Container showPassowrd={showPassword}>
