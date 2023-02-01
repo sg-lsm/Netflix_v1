@@ -16,7 +16,10 @@ export default function Login() {
   const handleLogIn = async () => {
     try {
       const { email, password } = formValues;
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password).then((userCredential)=>{
+        const user = userCredential.user;
+        console.log(user);
+      })
     } catch (err) {
       console.log(err);
     }
