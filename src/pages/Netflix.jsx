@@ -5,19 +5,23 @@ import movieLogo from "../assets/homeTitle.webp";
 import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { getGenres } from '../store/index';
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTrendingMovies, getGenres } from "../store";
 
 export default function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
 
-  useEffect(()=>{
-    dispatch(getGenres())
-  },[])
+  useEffect(() => {
+    dispatch(getGenres());
+  }, []);
+
+  useEffect(() => {
+    if (genresLoaded) dispatch(fetchTrendingMovies({ type: "all" }));
+  });
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
@@ -37,7 +41,10 @@ export default function Netflix() {
             <img src={movieLogo} alt="movie_logo" />
           </div>
           <div className="buttons flex">
-            <button className="flex j-center a-center" onClick={()=>navigate('/play')}>
+            <button
+              className="flex j-center a-center"
+              onClick={() => navigate("/play")}
+            >
               <FaPlay /> Play
             </button>
             <button className="flex j-center a-center">
@@ -84,16 +91,16 @@ const Container = styled.div`
           border: none;
           cursor: pointer;
           transition: 0.3s ease-in-out;
-          &:hover{
-            opacity: 0.8 ;
+          &:hover {
+            opacity: 0.8;
           }
-          &:nth-of-type(2){
-            background-color: rgba(110,110,110,0.8);
+          &:nth-of-type(2) {
+            background-color: rgba(110, 110, 110, 0.8);
             color: white;
-            svg{
-              font-size:1.5rem;
-              justify-content:center;
-              align-items:center;
+            svg {
+              font-size: 1.5rem;
+              justify-content: center;
+              align-items: center;
             }
           }
         }
