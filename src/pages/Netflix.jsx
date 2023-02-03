@@ -14,14 +14,24 @@ export default function Netflix() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
+  const moviesLoaded = useSelector((state) => state.netflix.movies);
 
   useEffect(() => {
     dispatch(getGenres());
-  }, []);
+  });
 
   useEffect(() => {
-    if (genresLoaded) dispatch(fetchTrendingMovies({ type: "all" }));
+    if (genresLoaded)
+      dispatch(
+        fetchTrendingMovies({
+          type: "all",
+        })
+      );
   });
+
+  useEffect(() => {
+    console.log(moviesLoaded);
+  }, []);
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
